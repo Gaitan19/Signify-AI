@@ -1,4 +1,107 @@
 @import "../../node_modules/bootstrap/scss/bootstrap.scss";
 @import "base/index";
 
+$primary-color: #007bff;
+$secondary-color: #6c757d;
+$danger-color: #dc3545;
+$warning-color: #ffc107;
+$success-color: #28a745;
+$background-color: #f8f9fa;
+$hover-color: #0056b3;
+$border-radius: 8px;
+$box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 
+body {
+    background-color: $background-color;
+    color: #333;
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+.container {
+    background-color: white;
+    border-radius: $border-radius;
+    box-shadow: $box-shadow;
+    margin-top: 20px;
+    padding: 20px;
+}
+
+.title {
+    color: $primary-color;
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+.file-input {
+    display: block;
+    margin: 10px auto;
+}
+
+.button-panel {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.btn-custom {
+    background-color: $primary-color;
+    border: none;
+    border-radius: $border-radius;
+    box-shadow: $box-shadow;
+    color: white;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 16px;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+        background-color: $hover-color;
+    }
+}
+
+.preview-container {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+.current-image {
+    margin-bottom: 20px;
+    max-width: 200px;
+}
+
+.previews-grid {
+    background-color: white;
+    border: 1px solid $primary-color;
+    border-radius: $border-radius;
+    box-shadow: $box-shadow;
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(5, 1fr);
+    max-width: 100%;
+    padding: 10px;
+}
+
+.previews-grid img, .previews-grid span {
+    border-radius: $border-radius;
+    box-shadow: $box-shadow;
+    height: 100px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+    width: 100px;
+}
+
+.previews-grid img:hover, .previews-grid span:hover {
+    transform: scale(1.1);
+}
+
+.result {
+    color: $primary-color;
+    font-size: 1.5em;
+    margin-top: 20px;
+}

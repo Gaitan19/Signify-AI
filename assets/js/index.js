@@ -46,7 +46,7 @@ document.getElementById("imageInput").addEventListener("change", function () {
       if (currentPreview) {
         currentPreview.remove();
       }
-      document.getElementById("previews").appendChild(preview);
+      document.getElementById("current-image").appendChild(preview);
     };
     reader.readAsDataURL(currentFile);
   }
@@ -60,12 +60,13 @@ function addImage() {
     reader.onload = function (e) {
       const img = document.createElement("img");
       img.src = e.target.result;
-      img.style.maxWidth = "200px";
+      img.style.width = "100px";
+      img.style.height = "100px";
       document.getElementById("previews").appendChild(img);
+      animateAddImage();
     };
     reader.readAsDataURL(currentFile);
 
-    // Clear currentFile and input
     currentFile = null;
     document.getElementById("imageInput").value = "";
     const currentPreview = document.getElementById("current-preview");
@@ -81,7 +82,11 @@ function addSpace() {
   images.push(" ");
   const space = document.createElement("span");
   space.innerHTML = "&nbsp;";
+  space.style.width = "100px";
+  space.style.height = "100px";
+  space.style.display = "inline-block";
   document.getElementById("previews").appendChild(space);
+  animateAddImage();
 }
 
 function removeLastImage() {
@@ -93,19 +98,19 @@ function removeLastImage() {
 }
 
 function clearAll() {
-  images.length = 0; // Vaciar el array de imágenes
+  images.length = 0;
   const previews = document.getElementById("previews");
   while (previews.firstChild) {
-    previews.removeChild(previews.firstChild); // Eliminar todos los hijos del contenedor de previsualización
+    previews.removeChild(previews.firstChild);
   }
-  document.getElementById("result").textContent = ""; // Limpiar el resultado de predicción
+  document.getElementById("result").textContent = "";
 }
 
 function predictWord() {
   const formData = new FormData();
 
   if (images.length === 0) {
-    alert("No images added."); // Alerta si no hay imágenes agregadas
+    alert("No images added.");
     return;
   }
 
@@ -130,12 +135,13 @@ function predictWord() {
       const predictedWord = data.predicted_classes
         .map((c) => (c === " " ? " " : getLetter(c)))
         .join("");
-      const probability = data.probability; // Assuming the API returns the overall probability
+      const probability = data.probability;
       document.getElementById(
         "result"
       ).innerText = `Predicted Word: ${predictedWord}, Probability: ${probability.toFixed(
         2
       )}%`;
+      animatePrediction();
     })
     .catch((error) => {
       console.error("Error:", error);
