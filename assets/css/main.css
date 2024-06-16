@@ -11894,23 +11894,47 @@ body {
   margin-top: 20px;
   padding: 20px;
 }
+@media (max-width: 576px) {
+  .container {
+    margin-top: 10px;
+    padding: 10px;
+  }
+}
 
 .title {
   color: #007bff;
   font-size: 2em;
   margin-bottom: 20px;
 }
+@media (max-width: 576px) {
+  .title {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+  }
+}
 
 .file-input {
   display: block;
   margin: 10px auto;
 }
+@media (max-width: 576px) {
+  .file-input {
+    margin: 5px auto;
+  }
+}
 
 .button-panel {
   display: flex;
+  flex-wrap: wrap;
   gap: 10px;
   justify-content: center;
   margin-bottom: 20px;
+}
+@media (max-width: 576px) {
+  .button-panel {
+    flex-direction: column;
+    gap: 5px;
+  }
 }
 
 .btn-custom {
@@ -11930,6 +11954,12 @@ body {
 .btn-custom:hover {
   background-color: #0056b3;
 }
+@media (max-width: 576px) {
+  .btn-custom {
+    font-size: 14px;
+    padding: 8px 15px;
+  }
+}
 
 .preview-container {
   align-items: center;
@@ -11937,10 +11967,21 @@ body {
   flex-direction: column;
   margin-top: 20px;
 }
+@media (max-width: 576px) {
+  .preview-container {
+    margin-top: 10px;
+  }
+}
 
 .current-image {
   margin-bottom: 20px;
   max-width: 200px;
+}
+@media (max-width: 576px) {
+  .current-image {
+    margin-bottom: 10px;
+    max-width: 150px;
+  }
 }
 
 .previews-grid {
@@ -11954,6 +11995,12 @@ body {
   max-width: 100%;
   padding: 10px;
 }
+@media (max-width: 576px) {
+  .previews-grid {
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    padding: 5px;
+  }
+}
 
 .previews-grid img, .previews-grid span {
   border-radius: 8px;
@@ -11962,6 +12009,12 @@ body {
   object-fit: cover;
   transition: transform 0.3s ease;
   width: 100px;
+}
+@media (max-width: 576px) {
+  .previews-grid img, .previews-grid span {
+    height: 80px;
+    width: 80px;
+  }
 }
 
 .previews-grid img:hover, .previews-grid span:hover {
@@ -11972,6 +12025,12 @@ body {
   color: #007bff;
   font-size: 1.5em;
   margin-top: 20px;
+}
+@media (max-width: 576px) {
+  .result {
+    font-size: 1.2em;
+    margin-top: 10px;
+  }
 }
 
 .loading-overlay {
@@ -11994,6 +12053,12 @@ body {
   border-radius: 50%;
   height: 50px;
   width: 50px;
+}
+@media (max-width: 576px) {
+  .loading-overlay .spinner {
+    height: 40px;
+    width: 40px;
+  }
 }
 
 @keyframes spin {

@@ -24,24 +24,44 @@ body {
     box-shadow: $box-shadow;
     margin-top: 20px;
     padding: 20px;
+
+    @media (max-width: 576px) {
+        margin-top: 10px;
+        padding: 10px;
+    }
 }
 
 .title {
     color: $primary-color;
     font-size: 2em;
     margin-bottom: 20px;
+
+    @media (max-width: 576px) {
+        font-size: 1.5em;
+        margin-bottom: 10px;
+    }
 }
 
 .file-input {
     display: block;
     margin: 10px auto;
+
+    @media (max-width: 576px) {
+        margin: 5px auto;
+    }
 }
 
 .button-panel {
     display: flex;
+    flex-wrap: wrap;
     gap: 10px;
     justify-content: center;
     margin-bottom: 20px;
+
+    @media (max-width: 576px) {
+        flex-direction: column;
+        gap: 5px;
+    }
 }
 
 .btn-custom {
@@ -61,6 +81,11 @@ body {
     &:hover {
         background-color: $hover-color;
     }
+
+    @media (max-width: 576px) {
+        font-size: 14px;
+        padding: 8px 15px;
+    }
 }
 
 .preview-container {
@@ -68,11 +93,20 @@ body {
     display: flex;
     flex-direction: column;
     margin-top: 20px;
+
+    @media (max-width: 576px) {
+        margin-top: 10px;
+    }
 }
 
 .current-image {
     margin-bottom: 20px;
     max-width: 200px;
+
+    @media (max-width: 576px) {
+        margin-bottom: 10px;
+        max-width: 150px;
+    }
 }
 
 .previews-grid {
@@ -85,6 +119,11 @@ body {
     grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
     max-width: 100%;
     padding: 10px;
+
+    @media (max-width: 576px) {
+        grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+        padding: 5px;
+    }
 }
 
 .previews-grid img, .previews-grid span {
@@ -94,6 +133,11 @@ body {
     object-fit: cover;
     transition: transform 0.3s ease;
     width: 100px;
+
+    @media (max-width: 576px) {
+        height: 80px;
+        width: 80px;
+    }
 }
 
 .previews-grid img:hover, .previews-grid span:hover {
@@ -104,6 +148,11 @@ body {
     color: $primary-color;
     font-size: 1.5em;
     margin-top: 20px;
+
+    @media (max-width: 576px) {
+        font-size: 1.2em;
+        margin-top: 10px;
+    }
 }
 
 .loading-overlay {
@@ -126,6 +175,11 @@ body {
     border-radius: 50%;
     height: 50px;
     width: 50px;
+
+    @media (max-width: 576px) {
+        height: 40px;
+        width: 40px;
+    }
 }
 
 @keyframes spin {
