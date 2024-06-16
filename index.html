@@ -6,10 +6,10 @@
 </head>
 <body>
     <h1>Sign Language Recognition</h1>
-    <input type="file" id="imageInput" accept="image/*">
-    <button onclick="uploadImage()">Upload and Predict</button>
+    <input type="file" id="imageInput" accept="image/*" multiple>
+    <button onclick="uploadImages()">Upload and Predict</button>
     <p id="result"></p>
-    <img id="preview" src="#" alt="Image Preview" style="display: none; max-width: 200px;"/>
+    <div id="previews"></div>
 
     <script src="index.js"></script>
 </body>

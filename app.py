@@ -14,43 +14,39 @@ weights_path = './modelo/pesos.weights.h5'
 model = load_model(model_path)
 model.load_weights(weights_path)
 
-# Ruta para predecir la imagen
+# Ruta para predecir las imágenes
 @app.route('/predict', methods=['POST'])
 def predict():
-    # Verifica si el archivo está en la solicitud
-    if 'file' not in request.files:
-        return jsonify({'error': 'No file provided'}), 400
+    if 'files' not in request.files:
+        return jsonify({'error': 'No files provided'}), 400
 
-    file = request.files['file']
+    files = request.files.getlist('files')
+    predicted_classes = []
 
-    # Guardar temporalmente el archivo subido
-    filename = file.filename
-    filepath = os.path.join('./uploads', filename)
-    file.save(filepath)
+    for file in files:
+        # Guardar temporalmente el archivo subido
+        filename = file.filename
+        filepath = os.path.join('./uploads', filename)
+        file.save(filepath)
 
-    # Preprocesar la imagen
-    img = load_img(filepath, target_size=(150, 150))
-    img = img_to_array(img)
-    img = np.expand_dims(img, axis=0)
-    img = img / 255.0
+        # Preprocesar la imagen
+        img = load_img(filepath, target_size=(150, 150))
+        img = img_to_array(img)
+        img = np.expand_dims(img, axis=0)
+        img = img / 255.0
 
-    # Realizar la predicción
-    prediction = model.predict(img)
-    predicted_class = np.argmax(prediction, axis=1)[0]
-    
-    
-    
-    
+        # Realizar la predicción
+        prediction = model.predict(img)
+        predicted_class = np.argmax(prediction, axis=1)[0]
+        predicted_classes.append(int(predicted_class))
+
+        # Eliminar el archivo temporal
+        os.remove(filepath)
 
     # Devolver la respuesta
     response = {
-        'predicted_class': int(predicted_class),
-        'prediction': prediction.tolist(),
-        'accuracy': round(float(np.max(prediction) * 100), 2)
+        'predicted_classes': predicted_classes,
     }
-
-    # Eliminar el archivo temporal
-    os.remove(filepath)
 
     return jsonify(response)
 

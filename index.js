@@ -30,22 +30,30 @@ function getLetter(number) {
 
 document.getElementById("imageInput").addEventListener("change", function () {
   const input = this;
-  if (input.files && input.files[0]) {
-    const reader = new FileReader();
-    reader.onload = function (e) {
-      const preview = document.getElementById("preview");
-      preview.src = e.target.result;
-      preview.style.display = "block";
-    };
-    reader.readAsDataURL(input.files[0]);
+  const previewsContainer = document.getElementById("previews");
+  previewsContainer.innerHTML = ""; // Clear existing previews
+
+  if (input.files) {
+    Array.from(input.files).forEach((file) => {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const img = document.createElement("img");
+        img.src = e.target.result;
+        img.style.maxWidth = "200px";
+        previewsContainer.appendChild(img);
+      };
+      reader.readAsDataURL(file);
+    });
   }
 });
 
-function uploadImage() {
+function uploadImages() {
   const input = document.getElementById("imageInput");
-  if (input.files && input.files[0]) {
+  if (input.files && input.files.length > 0) {
     const formData = new FormData();
-    formData.append("file", input.files[0]);
+    Array.from(input.files).forEach((file) => {
+      formData.append("files", file);
+    });
 
     fetch("http://127.0.0.1:5000/predict", {
       method: "POST",
@@ -53,16 +61,15 @@ function uploadImage() {
     })
       .then((response) => response.json())
       .then((data) => {
+        const predictedWord = data.predicted_classes.map(getLetter).join("");
         document.getElementById(
           "result"
-        ).innerText = `Predicted Class: ${getLetter(
-          data.predicted_class
-        )}, Accuracy: ${data.accuracy.toFixed(2)}%`;
+        ).innerText = `Predicted Word: ${predictedWord}`;
       })
       .catch((error) => {
         console.error("Error:", error);
       });
   } else {
-    alert("Please select an image file.");
+    alert("Please select image files.");
   }
 }
