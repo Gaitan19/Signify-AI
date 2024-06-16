@@ -6,8 +6,12 @@
 </head>
 <body>
     <h1>Sign Language Recognition</h1>
-    <input type="file" id="imageInput" accept="image/*" multiple>
-    <button onclick="uploadImages()">Upload and Predict</button>
+    <input type="file" id="imageInput" accept="image/*">
+    <button onclick="addImage()">Add Image</button>
+    <button onclick="addSpace()">Add Space</button>
+    <button onclick="removeLastImage()">Remove Last Image</button>
+    <button onclick="clearAll()">Clear All</button> <!-- Nuevo botón -->
+    <button onclick="predictWord()">Predict Word</button>
     <p id="result"></p>
     <div id="previews"></div>
 

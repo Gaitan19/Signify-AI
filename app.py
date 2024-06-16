@@ -22,8 +22,13 @@ def predict():
 
     files = request.files.getlist('files')
     predicted_classes = []
+    total_probability = 1.0
 
     for file in files:
+        if file.filename.startswith('space'):
+            predicted_classes.append(' ')
+            continue
+        
         # Guardar temporalmente el archivo subido
         filename = file.filename
         filepath = os.path.join('./uploads', filename)
@@ -39,6 +44,9 @@ def predict():
         prediction = model.predict(img)
         predicted_class = np.argmax(prediction, axis=1)[0]
         predicted_classes.append(int(predicted_class))
+        
+        # Calcular la probabilidad
+        total_probability *= np.max(prediction)
 
         # Eliminar el archivo temporal
         os.remove(filepath)
@@ -46,6 +54,7 @@ def predict():
     # Devolver la respuesta
     response = {
         'predicted_classes': predicted_classes,
+        'probability': total_probability * 100  # Convert to percentage
     }
 
     return jsonify(response)
