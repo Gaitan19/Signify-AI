@@ -63,6 +63,7 @@ function addImage() {
       img.style.width = "100px";
       img.style.height = "100px";
       document.getElementById("previews").appendChild(img);
+      adjustGridColumns();
       animateAddImage();
     };
     reader.readAsDataURL(currentFile);
@@ -86,6 +87,7 @@ function addSpace() {
   space.style.height = "100px";
   space.style.display = "inline-block";
   document.getElementById("previews").appendChild(space);
+  adjustGridColumns();
   animateAddImage();
 }
 
@@ -94,6 +96,7 @@ function removeLastImage() {
     images.pop();
     const previews = document.getElementById("previews");
     previews.removeChild(previews.lastChild);
+    adjustGridColumns();
   }
 }
 
@@ -104,6 +107,14 @@ function clearAll() {
     previews.removeChild(previews.firstChild);
   }
   document.getElementById("result").textContent = "";
+  adjustGridColumns();
+}
+
+function adjustGridColumns() {
+  const previews = document.getElementById("previews");
+  const itemCount = previews.childElementCount;
+  const columns = Math.min(itemCount, 5);
+  previews.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
 }
 
 function predictWord() {
@@ -126,6 +137,8 @@ function predictWord() {
     }
   });
 
+  showLoadingOverlay();
+
   fetch("http://127.0.0.1:5000/predict", {
     method: "POST",
     body: formData,
@@ -141,9 +154,25 @@ function predictWord() {
       ).innerText = `Predicted Word: ${predictedWord}, Probability: ${probability.toFixed(
         2
       )}%`;
+      hideLoadingOverlay();
       animatePrediction();
     })
     .catch((error) => {
       console.error("Error:", error);
+      hideLoadingOverlay();
     });
+}
+
+function showLoadingOverlay() {
+  const overlay = document.createElement("div");
+  overlay.className = "loading-overlay";
+  overlay.innerHTML = '<div class="spinner"></div>';
+  document.body.appendChild(overlay);
+}
+
+function hideLoadingOverlay() {
+  const overlay = document.querySelector(".loading-overlay");
+  if (overlay) {
+    document.body.removeChild(overlay);
+  }
 }
