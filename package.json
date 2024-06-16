@@ -1,0 +1,24 @@
+{
+  "name": "ia",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "server": "python -m flask run",
+    "client": "live-server --port=3000 --watch=index.html,index.js",
+    "build-css": "sass --watch assets/scss:assets/css"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "live-server": "^1.2.2"
+  },
+  "dependencies": {
+    "bootstrap": "^5.3.3",
+    "node-fetch": "^3.3.2",
+    "sass": "^1.77.5"
+  }
+}
