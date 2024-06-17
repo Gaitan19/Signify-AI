@@ -145,14 +145,19 @@ function predictWord() {
   })
     .then((response) => response.json())
     .then((data) => {
-      const predictedWord = data.predicted_word;
-      const correctedWord = data.corrected_word;
+      const predictedWord = capitalize(data.predicted_word);
+      const correctedWord = data.corrected_word
+        ? capitalize(data.corrected_word)
+        : null;
       const probability = data.probability;
-      document.getElementById(
-        "result"
-      ).innerText = `Predicted Word: ${predictedWord}, Corrected Word: ${correctedWord}, Probability: ${probability.toFixed(
-        2
-      )}%`;
+
+      let resultText = `Predicted Word: ${predictedWord}`;
+      if (correctedWord !== null) {
+        resultText += `, Corrected Word: ${correctedWord}`;
+      }
+      resultText += `, Probability: ${probability.toFixed(2)}%`;
+
+      document.getElementById("result").innerText = resultText;
       hideLoadingOverlay();
       animatePrediction();
     })
@@ -160,6 +165,10 @@ function predictWord() {
       console.error("Error:", error);
       hideLoadingOverlay();
     });
+}
+
+function capitalize(word) {
+  return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
 }
 
 function showLoadingOverlay() {
@@ -206,4 +215,63 @@ document.addEventListener("DOMContentLoaded", () => {
       result.classList.remove("fade-in");
     }, 1000);
   };
+
+  // Function to load auto correction state
+  const autoCorrectionCheckbox = document.getElementById(
+    "autoCorrectionCheckbox"
+  );
+  loadAutoCorrectionState();
+
+  autoCorrectionCheckbox.addEventListener("change", () => {
+    toggleAutoCorrection(autoCorrectionCheckbox.checked);
+  });
 });
+
+// Función para cargar el estado inicial de autocorrección
+function loadAutoCorrectionState() {
+  fetch("http://127.0.0.1:5000/toggle_autocorrection")
+    .then((response) => response.json())
+    .then((data) => {
+      const autoCorrectionCheckbox = document.getElementById(
+        "autoCorrectionCheckbox"
+      );
+      if (autoCorrectionCheckbox) {
+        autoCorrectionCheckbox.checked = data.auto_correction;
+      } else {
+        console.error("autoCorrectionCheckbox not found in DOM");
+      }
+    })
+    .catch((error) => {
+      console.error("Error loading auto correction state:", error);
+    });
+}
+
+// Llama a loadAutoCorrectionState cuando el DOM esté completamente cargado
+document.addEventListener("DOMContentLoaded", () => {
+  loadAutoCorrectionState();
+});
+
+// Función para enviar la solicitud de cambio de estado de autocorrección
+function toggleAutoCorrection() {
+  const autoCorrectionCheckbox = document.getElementById(
+    "autoCorrectionCheckbox"
+  );
+  fetch("http://127.0.0.1:5000/toggle_autocorrection", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ auto_correction: autoCorrectionCheckbox.checked }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      if (autoCorrectionCheckbox) {
+        autoCorrectionCheckbox.checked = data.auto_correction;
+      } else {
+        console.error("autoCorrectionCheckbox not found in DOM");
+      }
+    })
+    .catch((error) => {
+      console.error("Error toggling auto correction:", error);
+    });
+}

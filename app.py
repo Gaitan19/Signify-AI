@@ -24,6 +24,17 @@ model.load_weights(weights_path)
 # Inicializar el corrector ortográfico
 spell = SpellChecker(language='es')
 
+# Toggle para autocorrección
+auto_correction = False
+
+@app.route('/toggle_autocorrection', methods=['GET', 'POST'])
+def toggle_autocorrection():
+    global auto_correction
+    if request.method == 'POST':
+        request_data = request.get_json()
+        auto_correction = request_data.get('auto_correction', False)
+    return jsonify({'auto_correction': auto_correction})
+
 # Ruta para predecir las imágenes
 @app.route('/predict', methods=['POST'])
 def predict():
@@ -65,7 +76,7 @@ def predict():
     predicted_word = ''.join(predicted_classes)
 
     # Corrección ortográfica si la longitud de la palabra es mayor a 2
-    if len(predicted_word.replace(" ", "")) > 2:
+    if len(predicted_word.replace(" ", "")) > 2 and auto_correction:
         corrected_word = ' '.join([spell.correction(word) for word in predicted_word.split()])
     else:
         corrected_word = predicted_word

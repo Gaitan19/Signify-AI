@@ -1,5 +1,6 @@
 @import "../../node_modules/bootstrap/scss/bootstrap.scss";
 @import "base/index";
+@import "components/index";
 
 $primary-color: #007bff;
 $secondary-color: #6c757d;
@@ -148,6 +149,7 @@ body {
     color: $primary-color;
     font-size: 1.5em;
     margin-top: 20px;
+    text-transform: capitalize;
 
     @media (max-width: 576px) {
         font-size: 1.2em;
