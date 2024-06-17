@@ -1,35 +1,6 @@
 const images = [];
-const letters = [
-  "A",
-  "B",
-  "C",
-  "D",
-  "E",
-  "F",
-  "G",
-  "H",
-  "I",
-  "K",
-  "L",
-  "M",
-  "N",
-  "O",
-  "P",
-  "Q",
-  "R",
-  "S",
-  "T",
-  "U",
-  "V",
-  "W",
-  "X",
-  "Y",
-];
-let currentFile = null;
 
-function getLetter(number) {
-  return letters[number];
-}
+let currentFile = null;
 
 document.getElementById("imageInput").addEventListener("change", function () {
   const input = this;
@@ -226,52 +197,3 @@ document.addEventListener("DOMContentLoaded", () => {
     toggleAutoCorrection(autoCorrectionCheckbox.checked);
   });
 });
-
-// Función para cargar el estado inicial de autocorrección
-function loadAutoCorrectionState() {
-  fetch("http://127.0.0.1:5000/toggle_autocorrection")
-    .then((response) => response.json())
-    .then((data) => {
-      const autoCorrectionCheckbox = document.getElementById(
-        "autoCorrectionCheckbox"
-      );
-      if (autoCorrectionCheckbox) {
-        autoCorrectionCheckbox.checked = data.auto_correction;
-      } else {
-        console.error("autoCorrectionCheckbox not found in DOM");
-      }
-    })
-    .catch((error) => {
-      console.error("Error loading auto correction state:", error);
-    });
-}
-
-// Llama a loadAutoCorrectionState cuando el DOM esté completamente cargado
-document.addEventListener("DOMContentLoaded", () => {
-  loadAutoCorrectionState();
-});
-
-// Función para enviar la solicitud de cambio de estado de autocorrección
-function toggleAutoCorrection() {
-  const autoCorrectionCheckbox = document.getElementById(
-    "autoCorrectionCheckbox"
-  );
-  fetch("http://127.0.0.1:5000/toggle_autocorrection", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ auto_correction: autoCorrectionCheckbox.checked }),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      if (autoCorrectionCheckbox) {
-        autoCorrectionCheckbox.checked = data.auto_correction;
-      } else {
-        console.error("autoCorrectionCheckbox not found in DOM");
-      }
-    })
-    .catch((error) => {
-      console.error("Error toggling auto correction:", error);
-    });
-}

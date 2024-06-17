@@ -12,6 +12,10 @@
     <div class="container">
       <h1 class="title">Signify AI</h1>
       <input type="file" id="imageInput" accept="image/*" class="file-input" />
+      <label class="switch">
+        <input type="checkbox" id="autoCorrectionCheckbox" onclick="toggleAutoCorrection()" />
+        <span class="slider round" data-bs-toggle="tooltip" data-bs-placement="top" title="Enable Autocorrect"></span>
+      </label>
       <div class="button-panel">
         <button class="btn-custom" onclick="addImage()">Add Image</button>
         <button class="btn-custom" onclick="addSpace()">Add Space</button>
@@ -20,10 +24,7 @@
         </button>
         <button class="btn-custom" onclick="clearAll()">Clear All</button>
         <button class="btn-custom" onclick="predictWord()">Predict Word</button>
-        <label class="switch">
-          <input type="checkbox" id="autoCorrectionCheckbox" onclick="toggleAutoCorrection()" />
-          <span class="slider round"></span>
-        </label>
+        
       </div>
       <div class="preview-container">
         <div id="current-image" class="current-image"></div>
@@ -32,5 +33,6 @@
       <p id="result" class="result"></p>
     </div>
     <script src="/assets/js/index.js"></script>
+    <script src="/assets/js/toggle.js"></script>
   </body>
 </html>
