@@ -145,13 +145,12 @@ function predictWord() {
   })
     .then((response) => response.json())
     .then((data) => {
-      const predictedWord = data.predicted_classes
-        .map((c) => (c === " " ? " " : getLetter(c)))
-        .join("");
+      const predictedWord = data.predicted_word;
+      const correctedWord = data.corrected_word;
       const probability = data.probability;
       document.getElementById(
         "result"
-      ).innerText = `Predicted Word: ${predictedWord}, Probability: ${probability.toFixed(
+      ).innerText = `Predicted Word: ${predictedWord}, Corrected Word: ${correctedWord}, Probability: ${probability.toFixed(
         2
       )}%`;
       hideLoadingOverlay();
@@ -176,3 +175,35 @@ function hideLoadingOverlay() {
     document.body.removeChild(overlay);
   }
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+  const imageInput = document.getElementById("imageInput");
+  const previews = document.getElementById("previews");
+  const currentImage = document.getElementById("current-image");
+  const result = document.getElementById("result");
+
+  imageInput.addEventListener("change", () => {
+    currentImage.classList.add("fade-in");
+    setTimeout(() => {
+      currentImage.classList.remove("fade-in");
+    }, 1000);
+  });
+
+  window.animateAddImage = function () {
+    const images = previews.querySelectorAll("img, span");
+    const lastImage = images[images.length - 1];
+    if (lastImage) {
+      lastImage.classList.add("zoom-in");
+      setTimeout(() => {
+        lastImage.classList.remove("zoom-in");
+      }, 1000);
+    }
+  };
+
+  window.animatePrediction = function () {
+    result.classList.add("fade-in");
+    setTimeout(() => {
+      result.classList.remove("fade-in");
+    }, 1000);
+  };
+});
